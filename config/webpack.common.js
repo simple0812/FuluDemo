@@ -6,7 +6,7 @@ const webpack = require('webpack');
 module.exports = (opt) => {
   const ctx = {
     entry: {
-      app: './src/index.js',
+      app: './src/index.jsx',
       vendor: [
         'react', 'classnames', 'react-router', 'react-dom',
       ],
