@@ -1,71 +1,43 @@
-'use strict';
-import React, { Component, PropTypes } from 'react';
+import 'babel-polyfill'
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux';
+import {
+  HashRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+import { Layout, Menu } from 'antd';
 import {
   addTodo,
   completeTodo,
   setVisibilityFilter,
   VisibilityFilters
-} from '../actions';
+} from '../redux/actions';
 
-import AddTodo from '../components/AddTodo';
-import TodoList from '../components/TodoList';
-import Footer from '../components/Footer';
+import Header from '../components/header';
+import Footer from '../components/footer';
+import About from '../components/About';
+import Websites  from '../components/website/websites';
 
-class App extends Component {
+const Dashboard = () => (
+  <div>Dashboard</div>
+)
+
+export default class App extends Component {
   render() {
-    const { dispatch, visibleTodos, visibilityFilter } = this.props;
     return (
-      <div>
-        <AddTodo
-          onAddClick={text =>
-            dispatch(addTodo(text))
-          }
-        />
-        <TodoList
-          todos={visibleTodos}
-          onTodoClick={index => dispatch(completeTodo(index))}
-        />
-        <Footer
-          filter={visibilityFilter}
-          onFilterChange={nextFilter => dispatch(setVisibilityFilter(nextFilter))}
-        />
-      </div>
+      <Router>
+        <Layout>
+          <Header />
+          <Layout.Content style={{height:'900px'}}>
+            <Route exact path="/" component={About}/>
+            <Route path="/Dashboard" component={Dashboard}/>
+            <Route path="/Websites" component={Websites}/>
+          </Layout.Content>
+          <Footer />
+        </Layout>
+      </Router>
     );
   }
 }
-
-App.propTypes = {
-  visibleTodos: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired
-  })),
-  visibilityFilter: PropTypes.oneOf([
-    'SHOW_ALL',
-    'SHOW_COMPLETED',
-    'SHOW_ACTIVE'
-  ]).isRequired
-};
-
-
-function selectTodos(todos, filter) {
-  switch (filter) {
-    case VisibilityFilters.SHOW_ALL:
-      return todos;
-    case VisibilityFilters.SHOW_COMPLETED:
-      return todos.filter(todo => todo.completed);
-    case VisibilityFilters.SHOW_ACTIVE:
-      return todos.filter(todo => !todo.completed);
-  }
-}
-
-// 这里的 state 是 Connect 的组件的
-function select(state) {
-  console.log(state, '...')
-  return {
-    visibleTodos: selectTodos(state.todos, state.visibilityFilter),
-    visibilityFilter: state.visibilityFilter
-  };
-}
-
-export default connect(select)(App);

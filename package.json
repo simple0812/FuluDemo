@@ -103,6 +103,7 @@
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.8.5",
     "html-webpack-plugin": "^2.29.0",
+    "immutable": "^3.8.2",
     "jasmine-core": "^2.6.4",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.2.0",
