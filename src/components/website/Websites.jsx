@@ -1,38 +1,48 @@
 import React from 'react';  
+import { connect } from 'react-redux';
+
 import { Table, Button, Input, Icon, Popconfirm, Alert } from 'antd';  
 import AddWebsite from './AddWebsite';
 import EditWebsite from './EditWebsite';
 
 import styles from '../../assets/css/style.less';
-  
+import {
+  addWebsite, 
+  editWebsite, 
+  deleteWebsites,
+ pageWebsite
+} from '../../redux/actions/website';
+
+@connect(
+  (state) => {
+    console.log(state, 'connect state');
+    return ({
+      websites: state.websites,
+    });
+  },
+  {pageWebsite, addWebsite, editWebsite, deleteWebsites} //调用的时候会触发对应的saga
+) 
 class Websites extends React.Component {  
   constructor(props) {//   构造函数  
     super(props);  
     this.state = {  
-      dataSource:[  
-        { key: 1, id:1, link: 'tab', description: '热爱班级活动，尊敬老师'},  
-        { key: 2, id:2, link: 'shift', description: '热爱班级活动，尊敬老师'},  
-        { key: 6, id:6, link: 'ctrl', description: '热爱班级活动，尊敬老师'},  
-        { key: 4, id:4, link: 'caps lock', description: '热爱班级活动，尊敬老师'},  
-        { key: 5, id:5, link: 'enter', description: '热爱班级活动，尊敬老师'}  
-      ],  
+      pageIndex : 1,
+      keyword: '',
       index : '',  
-      PersonCount :0,  
       selectedRowKeys:[],  
       selectedRows:[],  
-      record : 'abc'  
+      record : ''  
     };  
     this.onDelete = this.onDelete.bind(this);
-    this.appendPerson = this.appendPerson.bind(this);  
     this.handleSelectedDelete = this.handleSelectedDelete.bind(this);  
     this.columns = [  
       { title: '编号', dataIndex: 'id', key: 'id' ,width:'5%'},  
       { title: '描述', dataIndex: 'description', key: 'description' ,width:'45%'},  
       { title: '网址', dataIndex: 'link', key: 'link' ,width:'40%'},  
-      { title: '操作', dataIndex: '', key: 'operation', width:'15%',render: (text,record,index)=>(  
+      { title: '操作', dataIndex: '', key: 'operation', width:'15%',render: (text, record, index)=>(  
         <span>  
-          <Popconfirm title="删除不可恢复，你确定要删除吗?" >  
-            <a title="用户删除"  className="mgl10"onClick={this.onDelete.bind(this,index)}>  
+          <Popconfirm title="删除不可恢复，你确定要删除吗?" onConfirm={this.onDelete.bind(this, record.id)}>  
+            <a title="用户删除"  className="mgl10" >  
               <Icon type="delete"/>
             </a>  
           </Popconfirm>  
@@ -43,46 +53,33 @@ class Websites extends React.Component {
     ];  
   }
 
+  componentWillMount() {
+    this.props.pageWebsite();
+  }
+
+    // 当props变化的时候触发
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', nextProps.websites.toJSON() )
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.websites !== this.props.websites;
+  }
+
   showEditModal(event) {
   }
 
-  appendPerson(event){//得到子元素传过来的值  
-    let array = [];  
-    let count = 0;  
-    this.state.dataSource.forEach(function (element) {  
-      Object.keys(element).some(function (key) {  
-        if (key === 'nid') {  
-          count++;  
-          array[count] = element.nid
-        }  
-      })  
-    })  
-    let sortData =array.sort();  
-    let MaxData = sortData[(this.state.dataSource.length)-1]
-    event.key=MaxData+1;  
-    event.nid = MaxData+1;  
-    this.setState({  
-      dataSource:[...this.state.dataSource,event]  
-    })  
-  }  
-
-  onDelete(index){  
-    console.log(index)  
-    const dataSource = [...this.state.dataSource];  
-    dataSource.splice(index, 1);
-    this.setState({ dataSource });  
+  onDelete(id){  
+    this.props.deleteWebsites([id]); 
   }  
 
   handleSelectedDelete(){  
-    if(this.state.selectedRowKeys.length>0){  
-      console.log(...this.state.selectedRowKeys)  
-      const dataSource = [...this.state.dataSource]  
-      dataSource.splice(this.state.selectedRows,this.state.selectedRows.length)  
-      this.setState({ dataSource });  
-    }  
-    else{  
-    }  
-  }  
+    this.props.deleteWebsites(this.state.selectedRowKeys); 
+  } 
+  handleSeach() {
+    var kw = this.refs.txtSearch.refs.input.value;
+    this.props.pageWebsite({pageIndex: 1, keyword : kw })
+  } 
 
   render() {  
       //联动选择框  
@@ -110,18 +107,29 @@ class Websites extends React.Component {
         <div id="div_left"></div>  
         <div id="div-right">  
           <div className="table_oftop">  
-            <Button type="primary" icon="search" style={{float:"right",marginLeft:10}}>查询</Button>  
-            <Input placeholder="input search text" style ={{width:300,float:"right"}}/>  
+            <Button type="primary" icon="search" style={{float:"right",marginLeft:10}} onClick={this.handleSeach.bind(this)}>查询</Button>  
+            <Input placeholder="input search text"  ref='txtSearch' style ={{width:300,float:"right"}}/>  
             <div id="add_delete">  
-              <Button type="primary" className="selectedDelete" onClick={this.handleSelectedDelete}>删除所选</Button>  
-              <AddWebsite ref='addModal' className="add_user_btn" callback={this.appendPerson}/>  
+              <Popconfirm title="删除不可恢复，你确定要删除吗?" onConfirm={this.handleSelectedDelete.bind(this)}>  
+                <Button type="primary" className="selectedDelete">删除所选</Button>  
+              </Popconfirm>
+              <div className="add_user_btn">
+                <AddWebsite ref='addModal'  />  
+              </div>
             </div>  
           </div>  
-          <Table columns={this.columns}  
-            dataSource={this.state.dataSource}  
+          <Table columns={this.columns} 
+            rowKey = {(record) => record.id} 
+            dataSource={this.props.websites.toJSON().result}  
             className="table"  
             rowSelection={rowSelection}  
-            scroll ={{y:400}}/>  
+            pagination = {{
+              total:this.props.websites.toJSON().total,
+              onChange: (current) => {  //点击改变页数的选项时调用函数，current:将要跳转的页数
+                this.props.pageWebsite({pageIndex:current, keyword:''});
+              },  
+            }}
+            scroll ={{y:800}}/>  
         </div>  
       </div>  
     );  

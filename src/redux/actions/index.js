@@ -51,5 +51,5 @@ export function loginFailureAction(error) {
   return {
     type: LOGIN_USER_FAILURE,
     data: error,
-  }
-};
+  };
+}

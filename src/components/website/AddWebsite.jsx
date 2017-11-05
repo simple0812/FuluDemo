@@ -1,8 +1,22 @@
 import React, { Component } from 'react';  
 import {Form,Input,Button,Select,Modal} from 'antd'  
+import { connect } from 'react-redux';
+
 const FormItem = Form.Item;  
 const Option = Select.Option;  
-  
+
+import {
+  addWebsite, 
+} from '../../redux/actions/website';
+
+@connect(
+  (state) => {
+    return ({
+      websites: state.websites,
+    });
+  },
+  {addWebsite} //调用的时候会触发对应的saga
+)  
 class AddWebsite extends Component{
   constructor(props){
     super(props);  
@@ -39,9 +53,11 @@ class AddWebsite extends Component{
         this.setState({  
             visible:false  
         })  
-        this.props.form.resetFields();//清空提交的表单  
+        this.props.form.resetFields();//清空提交的表单 
+        console.log(values); 
+        this.props.addWebsite(values);
         //当值传递到父元素后，通过回调函数触发appendPerson方法将参数values带到父元素  
-        this.props.callback(values);  
+        //this.props.callback(values);  
       }  
     })  
   }  

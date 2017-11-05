@@ -16,6 +16,7 @@ function auth(state = initialState, action = {}) {
       error: null,
     });
   case LOGIN_USER_FAILURE:
+    console.log(state, action)
     return state.merge({
       token: null,
       error: action.data,
@@ -23,7 +24,7 @@ function auth(state = initialState, action = {}) {
   default:
     return state;
   }
-};
+}
 
 
 export default auth;

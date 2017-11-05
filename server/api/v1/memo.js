@@ -11,6 +11,9 @@ exports.page = function(req, res) {
   var query = {
     limit: pageSize,
     offset: firNum,
+    order: [
+      ['id', 'DESC']
+    ],
     raw: true
   };
 
@@ -56,8 +59,8 @@ exports.create = function(req, res) {
     p.link = 'http://' + p.link;
   }
 
-  models.Memo.upsert(p).then(doc => {
-      res.json(jsonHelper.getSuccess(p));
+  models.Memo.create(p).then(doc => {
+      res.json(jsonHelper.getSuccess(doc));
   }).catch(err => {
       res.json(jsonHelper.getError(err.message));
   });
