@@ -30,13 +30,11 @@ function websites(state = initialState, action={}) {
     return Immutable.fromJS(p);
 
   case EDIT_WEBSITE_SUCCESS:
-    return [
-      ...state.result.slice(0, action.index),
-      Object.assign({}, state[action.index], {
-        completed: true,
-      }),
-      ...state.result.slice(action.index + 1),
-    ];
+    var p = state.toJSON();
+    var x = _.find(p.result, each => each.id = action.data.id);
+    x.description = action.data.description;
+    x.link = action.data.link;
+    return Immutable.fromJS(p);
   case PAGE_WEBSITE_SUCCESS:
     return state.merge(action.data);
     // return action.data;

@@ -1,9 +1,11 @@
 import React from 'react';  
+import ReactDOM from 'react-dom';  
 import { connect } from 'react-redux';
 
 import { Table, Button, Input, Icon, Popconfirm, Alert } from 'antd';  
 import AddWebsite from './AddWebsite';
 import EditWebsite from './EditWebsite';
+import * as $ from 'jquery';
 
 import styles from '../../assets/css/style.less';
 import {
@@ -26,12 +28,14 @@ class Websites extends React.Component {
   constructor(props) {//   构造函数  
     super(props);  
     this.state = {  
+      childDialog: false,
       pageIndex : 1,
       keyword: '',
       index : '',  
       selectedRowKeys:[],  
       selectedRows:[],  
-      record : ''  
+      record : '' , 
+      editModel:{},
     };  
     this.onDelete = this.onDelete.bind(this);
     this.handleSelectedDelete = this.handleSelectedDelete.bind(this);  
@@ -47,7 +51,7 @@ class Websites extends React.Component {
             </a>  
           </Popconfirm>  
           <span className="ant-divider"/>  
-            <EditWebsite className="user_details" pass={record} showEditModal={this.showEditModal.bind(this)}/>  
+            <EditWebsite className="user_details" pass={record} showEditModal={this.showEditModal.bind(this, record)}/>  
           </span>  
       )},  
     ];  
@@ -63,10 +67,27 @@ class Websites extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.websites !== this.props.websites;
+    return true;
+    // return nextProps.websites !== this.props.websites; //如果设置该项后 则this.setState方法可能会失效
   }
 
-  showEditModal(event) {
+  showEditModal(evt) {
+    //var p = ReactDOM.findDOMNode(this.refs.addModal);
+    console.log(evt);
+    this.handleShow(evt)
+  }
+
+  handleClose = () => {
+    return () => {
+      this.setState({childDialog: false});
+    } 
+  }
+
+  handleShow(model) {
+    this.setState({
+      childDialog: true,
+      editModel: model || {}
+    });
   }
 
   onDelete(id){  
@@ -114,7 +135,8 @@ class Websites extends React.Component {
                 <Button type="primary" className="selectedDelete">删除所选</Button>  
               </Popconfirm>
               <div className="add_user_btn">
-                <AddWebsite ref='addModal'  />  
+                <Button type="primary" onClick={this.handleShow.bind(this, null)}>添加</Button>  
+                <AddWebsite ref='addModal' visible={this.state.childDialog} model={this.state.editModel} onClose={this.handleClose()} />  
               </div>
             </div>  
           </div>  

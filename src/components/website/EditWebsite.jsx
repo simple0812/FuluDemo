@@ -7,38 +7,15 @@ class EditWebsite extends Component{
         this.state={  
             visible:false  
         }  
-        this.handlePopup = this.handlePopup.bind(this);  
-        this.handleOkOrCancel = this.handleOkOrCancel.bind(this);  
     }  
-    handlePopup() {  
-        this.setState({  
-            visible: true  
-        });  
-    }  
-    handleOkOrCancel(){  
-        this.setState({  
-            visible: false  
-        });  
-    }
-  
+   
     render(){  
       return(  
         <div style={{display:'inline-block'}}>  
-          <a onClick={this.props.showEditModal.bind(this.props, this.props.pass)}>编辑</a>  
-          <a onClick={this.handlePopup}>详情</a>  
-          <Modal title={this.props.pass.name} 
-            visible={this.state.visible}  
-            onOk= {this.handleOkOrCancel} onCancel={this.handleOkOrCancel}>  
-            <p>姓名：   {this.props.pass.name}</p>  
-            <p>性别：    {this.props.pass.gender}</p>  
-            <p>年龄：      {this.props.pass.age}</p>  
-            <p>就读学校：   {this.props.pass.schoolname}</p>  
-            <p>在校表现：   {this.props.pass.description}</p>  
-          </Modal>  
+          <a onClick={this.props.showEditModal}>编辑</a>  
         </div>  
       )  
     }  
-  
 }  
   
 export default EditWebsite;  

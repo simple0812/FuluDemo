@@ -31,9 +31,9 @@ export default class App extends Component {
         <Layout>
           <Header />
           <Layout.Content style={{height:'900px'}}>
-            <Route exact path="/" component={About}/>
+            <Route exact path="/" component={Websites}/>
+            <Route path="/About" component={About}/>
             <Route path="/Dashboard" component={Dashboard}/>
-            <Route path="/Websites" component={Websites}/>
           </Layout.Content>
           <Footer />
         </Layout>

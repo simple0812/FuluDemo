@@ -7,7 +7,6 @@ export const EDIT_WEBSITE_SUCCESS = 'EDIT_WEBSITE_SUCCESS';
 export const ADD_WEBSITE_SUCCESS = 'ADD_WEBSITE_SUCCESS';
 export const DELETE_WEBSITES_SUCCESS = 'DELETE_WEBSITES_SUCCESS';
 export const PAGE_WEBSITE_ERROR = 'PAGE_WEBSITE_ERROR';
-EDIT_WEBSITE_SUCCESS
 export function addWebsite(website) {
   return {
     type: ADD_WEBSITE,

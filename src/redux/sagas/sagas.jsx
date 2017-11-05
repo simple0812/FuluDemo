@@ -7,6 +7,7 @@ import {
 import {
   PAGE_WEBSITE,
   ADD_WEBSITE,
+  EDIT_WEBSITE,
   DELETE_WEBSITES,
   pageWebsiteSuccess,
   addWebsiteSuccess,
@@ -33,13 +34,16 @@ function* getPageWebsitesAsync(action) {
 }
 
 function* addWebsiteAsync(action) {
-  console.log(action)
   var p = yield axios.post('/api/v1/memo', action.entity)
   yield put(addWebsiteSuccess(p.data));
 }
 
+function* editWebsiteAsync(action) {
+  var p = yield axios.put('/api/v1/memo', action.entity)
+  yield put(editWebsiteSuccess(action.entity));
+}
+
 function* deleteWebsitesAsync(action) {
-  console.log(action)
   var p = yield axios.delete('/api/v1/memo', {data: action.ids})
   console.log(p.data)
   yield put(deleteWebsitesSuccess(action.ids));
@@ -49,6 +53,7 @@ export default function* rootSaga() {
   yield [
     takeLatest(PAGE_WEBSITE, getPageWebsitesAsync),
     takeLatest(ADD_WEBSITE, addWebsiteAsync),
+    takeLatest(EDIT_WEBSITE, editWebsiteAsync),
     takeLatest(DELETE_WEBSITES, deleteWebsitesAsync),
   ];
 }
