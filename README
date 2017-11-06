@@ -1,0 +1,7 @@
+项目启动说明
+1.安装node
+2.安装nodemon npm install nodemon -g
+3.安装依赖包 npm install(由于使用了sqlite3， 该包在window下安装不太稳定，如果失败请将sqlite3.rar解压到node_modules)
+4.运行 npm run start:all
+
+5.前端打包 npm run build
