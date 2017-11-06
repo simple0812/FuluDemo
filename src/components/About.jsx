@@ -41,7 +41,7 @@ export default class About extends Component {
     return (
       <div  style={{textAlign:'left', width:'70%', margin:'0 auto'}}>
         <h1 onClick={this.props.loginActions} style={{textAlign:'center', margin:'30px'}}>About</h1>
-        <p>本项目使用了以下几项技术:</p>
+        <h3>使用技术:</h3>
         <ul style={{marginLeft:'10px'}}>
           <li>- React</li>
           <li>- React Router</li>
@@ -51,6 +51,9 @@ export default class About extends Component {
           <li>- Webpack</li>
           <li>- Ant Design</li>
         </ul>
+        <h3 style={{ margin:'5px 0'}}>实现功能：对网址的增、删、改、查等功能</h3>
+        <h3 style={{ margin:'5px 0'}}>源码地址：https://github.com/simple0812/FuluDemo</h3>
+        <h3>在线演示：</h3>
       </div>
     )
   }

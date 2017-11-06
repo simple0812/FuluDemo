@@ -15,10 +15,10 @@ import {
   VisibilityFilters
 } from '../redux/actions';
 
-import Header from '../components/header';
-import Footer from '../components/footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import About from '../components/About';
-import Websites  from '../components/website/websites';
+import Websites  from '../components/website/Websites';
 
 export default class App extends Component {
   render() {
