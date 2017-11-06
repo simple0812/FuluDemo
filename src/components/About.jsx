@@ -53,7 +53,7 @@ export default class About extends Component {
         </ul>
         <h3 style={{ margin:'5px 0'}}>实现功能：对网址的增、删、改、查等功能</h3>
         <h3 style={{ margin:'5px 0'}}>源码地址：https://github.com/simple0812/FuluDemo</h3>
-        <h3>在线演示：</h3>
+        <h3>在线演示：http://123.206.195.13:5555</h3>
       </div>
     )
   }
