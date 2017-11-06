@@ -13,6 +13,7 @@ import {
   loginAction
 } from '../redux/actions';
 
+import styles from '../assets/css/style.less';
 
 @connect(
   // 当store中的状态发生改变的时候 会触发该函数
@@ -38,8 +39,18 @@ export default class About extends Component {
 
   render() {
     return (
-      <div>
-        <h1 onClick={this.props.loginActions}>About</h1>
+      <div  style={{textAlign:'left', width:'70%', margin:'0 auto'}}>
+        <h1 onClick={this.props.loginActions} style={{textAlign:'center', margin:'30px'}}>About</h1>
+        <p>本项目使用了以下几项技术:</p>
+        <ul style={{marginLeft:'10px'}}>
+          <li>- React</li>
+          <li>- React Router</li>
+          <li>- Redux</li>
+          <li>- Redux Saga</li>
+          <li>- Axios</li>
+          <li>- Webpack</li>
+          <li>- Ant Design</li>
+        </ul>
       </div>
     )
   }

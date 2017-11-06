@@ -18,6 +18,7 @@ npm-debug.log.*
 public/*
 typings/*
 package-lock.json
+README
 
 # Runtime data
 pids

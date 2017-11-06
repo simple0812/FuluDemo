@@ -24,7 +24,6 @@ export default class Header extends Component {
         <Menu mode='horizontal' theme='dark' style={{paddingLeft:'100px'}} defaultSelectedKeys={[this.state.defaultKey]}>
           <Menu.Item key='Websites'><Link to="/">网址</Link></Menu.Item>
           <Menu.Item key='About'><Link to="/About">关于</Link></Menu.Item>
-          <Menu.Item key='Dashboard'><Link to="/Dashboard">Dashboard</Link></Menu.Item>
         </Menu>
       </header>
     )
