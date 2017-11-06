@@ -31,7 +31,7 @@ function websites(state = initialState, action={}) {
 
   case EDIT_WEBSITE_SUCCESS:
     var p = state.toJSON();
-    var x = _.find(p.result, each => each.id = action.data.id);
+    var x = _.find(p.result, each => each.id === action.data.id);
     x.description = action.data.description;
     x.link = action.data.link;
     return Immutable.fromJS(p);
