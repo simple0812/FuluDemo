@@ -4,7 +4,7 @@ const helper = require('./helper');
 
 module.exports = {
   entry: {
-    vendor: ['lodash', 'moment', 'bootstrap'],
+    vendor: ['lodash', 'moment'],
   },
   devtool: 'source-map',
   output: {
