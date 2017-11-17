@@ -79,27 +79,6 @@ module.exports = (opt) => {
         inject: 'footer',
       }),
     ],
-    devServer: {
-      historyApiFallback: true,
-      proxy: [{
-        context: ['/api'],
-        target: 'http://localhost:5555',
-        secure: false,
-      }],
-      watchOptions: {
-        aggregateTimeout: 300,
-        poll: 1000,
-      },
-    },
-
-    node: {
-      global: true,
-      crypto: 'empty',
-      process: true,
-      module: false,
-      clearImmediate: false,
-      setImmediate: false,
-    },
   };
 
   return ctx;
