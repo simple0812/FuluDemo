@@ -3,14 +3,21 @@ var app = express();
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
 var engine = require('ejs-locals');
-var logger = require('./utils/logger');
 var path = require('path');
+
+var logger = require('./utils/logger');
+
 var compress = require('compression');
 var helmet = require('helmet'); //服务安全(点击劫持等)
 var csurf = require('csurf'); //csrf
 var cors = require('cors'); //跨域访问
+
+
 var webRouter = require('./web_router');
 var apiRouterV1 = require('./api_router_v1');
+
+
+app.options('*', cors());
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
@@ -25,12 +32,15 @@ app.use(require('method-override')());
 app.use(require('cookie-parser')());
 app.use(compress());
 app.use(require('cookie-session')({
-    secret: 'zhanglei'
+    secret: 'fulu'
 }));
+
+
 
 var env = process.env.NODE_ENV || 'production';
 
 app.use(express.static(path.join(__dirname, '../dist')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(logger.middleware);
 
@@ -42,7 +52,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/api/v1', cors(), apiRouterV1);
+//app.use('/api/v1', cors(), apiRouterV1);
 app.use('/', webRouter);
 
 app.use(function(req, res, next) {
